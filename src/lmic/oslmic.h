@@ -36,9 +36,10 @@ typedef uint32_t           u4_t;
 typedef int32_t            s4_t;
 typedef unsigned int       uint;
 typedef const char* str_t;
+typedef s4_t  ostime_t;
 
 #include <string.h>
-#include "hal.h"
+
 #define EV(a,b,c) /**/
 #define DO_DEVDB(field1,field2) /**/
 #if !defined(CFG_noassert)
@@ -102,7 +103,7 @@ void os_runloop_once (void);
 #error Illegal OSTICKS_PER_SEC - must be in range [10000:64516]. One tick must be 15.5us .. 100us long.
 #endif
 
-typedef s4_t  ostime_t;
+
 
 #if !HAS_ostick_conv
 #define us2osticks(us)   ((ostime_t)( ((int64_t)(us) * OSTICKS_PER_SEC) / 1000000))

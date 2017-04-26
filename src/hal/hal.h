@@ -1,28 +1,40 @@
-/*******************************************************************************
- * Copyright (c) 2015 Matthijs Kooijman
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * This the HAL to run LMIC on top of the Arduino environment.
- *******************************************************************************/
-#ifndef _hal_hal_h_
-#define _hal_hal_h_
+#ifndef _hal_h_
+#define _hal_h_
 
-static const int NUM_DIO = 3;
 
-struct lmic_pinmap {
-    u1_t nss;
-    u1_t rxtx;
-    u1_t rst;
-    u1_t dio[NUM_DIO];
-};
+#include <ti/drivers/PIN.h>
+#include "../lmic/oslmic.h"
 
-// Use this for any unused pins.
-const u1_t LMIC_UNUSED_PIN = 0xff;
+extern void printu(char* msg);
 
-// Declared here, to be defined an initialized by the application
-extern const lmic_pinmap lmic_pins;
 
-#endif // _hal_hal_h_
+
+
+void hal_pin_nss (u1_t val);
+void hal_pin_rxtx (u1_t val);
+void hal_pin_rst (u1_t val);
+void hal_pin_int_handler(PIN_Handle handle, PIN_Id pinId);
+static void hal_io_check();
+bool hal_io_get_dio0();
+bool hal_io_get_dio1();
+
+void hal_spi_init();
+u1_t hal_spi (u1_t outval);
+
+void hal_time_init();
+ostime_t hal_ticks ();
+void hal_waitUntil (ostime_t time);
+u1_t hal_checkTimer (ostime_t targettime);
+void hal_sleep ();
+
+void hal_disableIRQs ();
+void hal_enableIRQs ();
+
+void hal_init ();
+void hal_io_init();
+
+void hal_failed ();
+void hal_failed_msg(char* msg);
+
+
+#endif // _hal_h_
